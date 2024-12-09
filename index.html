@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Books API</title>
+  </head>
+  <body>
+    <h1>Google Books API</h1>
+
+    <ul id="bookList"></ul>
+
+    <script>
+      var bookList = document.getElementById("bookList");
+      var key = "AIzaSyAn3zoWHKES1lSGMZMOjpycBsR5XqTtqy8";
+      var url = "https://www.googleapis.com/books/v1/volumes?q=ThroneOfGlass&key=";
+
+      // https://developers.google.com/books/docs/v1/getting_started
+        
+      // initate an API request to our URL with our KEY
+      fetch(url + key)
+        .then(function (response) {
+          // extract the JSOn of our FETCH RESPONSE
+          return response.json();
+        })
+        .then(function (data) {
+          console.log(data);
+
+            // loop through the ITEMS in the DATA JSON
+          data.items.forEach(function (item) {
+            //extract the title, author and link
+            var title = item.volumeInfo.title;
+            var author = item.volumeInfo.authors[0];
+            var link = item.volumeInfo.canonicalVolumeLink;
+            var image = item.volumeInfo.imageLinks.smallThumbnail;
+
+
+            var newItem = 
+            "<li><h2>" + 
+                title +
+                "</h2>"+  
+                author + 
+                "<br>" +
+                "<a href = '" +
+                link +
+                "'>"+
+                link +
+                "</a> <br> <img src='"+
+                image +
+                "'></li>";
+
+            bookList.innerHTML += newItem;
+          });
+        });
+    </script>
+  </body>
+</html>
